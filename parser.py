@@ -15,7 +15,8 @@ def algorithm(matrix):
     verticals = [line for line in matrix if line[1] is 'V']
     horizontals = [line for line in matrix if line[1] is 'H' and len(line[2]) > 1]
 
-    # Two verticals with highest score
+    verticals = sorted(verticals, key=lambda x: len(x[2]))
+    horizontals = sorted(horizontals, key=lambda x: len(x[2]))
 
     all_verticals = verticals
     verticals_to_not_visit = []
