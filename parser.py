@@ -23,12 +23,12 @@ def algorithm(matrix):
     pairs = []
     for vertical in verticals:
         if vertical not in verticals_to_not_visit:
-            max_vertical = max(all_verticals, key=lambda x: score(vertical[2], x[2]))
+            max_vertical = max(all_verticals, key=lambda x: len(set([*vertical[2], *x[2]])))
             all_verticals.remove(max_vertical)
             all_verticals.remove(vertical)
             verticals_to_not_visit.append(vertical)
             verticals_to_not_visit.append(max_vertical)
-            pairs.append([[vertical[0], max_vertical[0]], 'S', np.intersect1d(vertical[2], max_vertical[2])])
+            pairs.append([[vertical[0], max_vertical[0]], 'S', [*set([*vertical[2], *max_vertical[2]])]])
 
     slides = [*horizontals, *pairs]
     all_slides = slides
@@ -46,6 +46,9 @@ def algorithm(matrix):
 
     while all_slides:
         # if slide not in slides_to_not_visit:
+
+        if len(all_slides) < 2:
+            break
 
         max_slide = max(all_slides, key=lambda x: score(slide[2], x[2]))
         all_slides.remove(max_slide)
@@ -103,7 +106,11 @@ def write_result(result, filename):
 
 
 def main():
+    filename = 'data_set/a_example.txt'
+    filename = 'data_set/b_lovely_landscapes.txt'
     filename = 'data_set/c_memorable_moments.txt'
+    filename = 'data_set/d_pet_pictures.txt'
+    # filename = 'data_set/e_shiny_selfies.txt'
     matrix = parse_input(filename)
     result = algorithm(matrix)
     write_result(result, filename)
