@@ -23,6 +23,7 @@ def algorithm(matrix):
         if vertical not in verticals_to_not_visit:
             max_vertical = max(all_verticals, key=lambda x: score(vertical[2], x[2]))
             all_verticals.remove(max_vertical)
+            all_verticals.remove(vertical)
             verticals_to_not_visit.append(vertical)
             verticals_to_not_visit.append(max_vertical)
             pairs.append([[vertical[0], max_vertical[0]], 'S', np.intersect1d(vertical[2], max_vertical[2])])
@@ -36,6 +37,7 @@ def algorithm(matrix):
         if slide not in slides_to_not_visit:
             max_slide = max(all_slides, key=lambda x: score(slide[2], x[2]))
             all_slides.remove(max_slide)
+            all_slides.remove(slide)
             slides_to_not_visit.append(slide)
             slides_to_not_visit.append(max_slide)
 
@@ -59,7 +61,7 @@ def algorithm(matrix):
     #     else:
     #         resultX.append(str(s[0]))
 
-    return finalSlides
+    return set(finalSlides)
 
 
 
