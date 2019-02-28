@@ -9,16 +9,16 @@ def algorithm(*args):
     return 0
 
 
-def write_result(result):
+def write_result(result, filename):
     length = len(result)
-    with open('result_file', 'w') as result_file:
+    with open('result_' + filename, 'w') as result_file:
         result_file.write(str(length) + '\n')
         for line in result:
             result_file.write(' '.join(str(elem) for elem in line) + '\n')
 
-
-R, C, L, H, matrix = parse_input('filename')
+filename = 'filename'
+R, C, L, H, matrix = parse_input(filename)
 result = algorithm(R, C, L, H, matrix)
-write_result(result)
+write_result(result, filename)
 
 print('')
