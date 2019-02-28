@@ -64,10 +64,7 @@ def write_result(result, filename):
     length = len(result)
     with open('result_' + filename, 'w') as result_file:
         result_file.write(str(length) + '\n')
-        for line in result:
-            result_file.write(line)
-            #result_file.write(' '.join(str(elem) for elem in line) + '\n')
-
+        result_file.writelines('\n'.join(result))
 filename = 'data_set/c_memorable_moments.txt'
 matrix = parse_input(filename)
 result = algorithm(matrix)
