@@ -27,10 +27,7 @@ def algorithm(matrix):
             verticals_to_not_visit.append(max_vertical)
             pairs.append([[vertical[0], max_vertical[0]], 'S', np.intersect1d(vertical[2], max_vertical[2])])
 
-    slides = []
-    slides.append(horizontals)
-    slides.append(pairs)
-
+    slides = [*horizontals, *pairs]
     all_slides = slides
     slides_to_not_visit = []
     finalSlides = []
@@ -45,9 +42,7 @@ def algorithm(matrix):
 
     #sorted_combinations = sorted(it.combinations(verticals, r=2), key=lambda x: score(x[0][2], x[1][2]))
 
-    resultX = []
-    resultX.append(len(finalSlides))
-    resultX.append(finalSlides)
+    resultX = [len(finalSlides), *finalSlides]
 
     return resultX
 
