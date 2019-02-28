@@ -33,23 +33,47 @@ def algorithm(matrix):
     slides_to_not_visit = []
     finalSlides = []
 
-    for slide in slides:
-        if slide not in slides_to_not_visit:
-            max_slide = max(all_slides, key=lambda x: score(slide[2], x[2]))
-            all_slides.remove(max_slide)
-            all_slides.remove(slide)
-            slides_to_not_visit.append(slide)
-            slides_to_not_visit.append(max_slide)
+    slide = slides[0]
+    slides_to_not_visit.append(slide)
+    all_slides.remove(slide)
 
-            if slide[1] is 'S':
-                finalSlides.append(str(slide[0][0]) + ' ' + str(slide[0][1]))
-            else:
-                finalSlides.append(str(slide[0]))
+    if slide[1] is 'S':
+        finalSlides.append(str(slide[0][0]) + ' ' + str(slide[0][1]))
+    else:
+        finalSlides.append(str(slide[0]))
 
-            if max_slide[1] is 'S':
-                finalSlides.append(str(max_slide[0][0]) + ' ' + str(max_slide[0][1]))
-            else:
-                finalSlides.append(str(max_slide[0]))
+    while all_slides:
+        # if slide not in slides_to_not_visit:
+
+        max_slide = max(all_slides, key=lambda x: score(slide[2], x[2]))
+        all_slides.remove(max_slide)
+
+        slides_to_not_visit.append(max_slide)
+
+        if max_slide[1] is 'S':
+            finalSlides.append(str(max_slide[0][0]) + ' ' + str(max_slide[0][1]))
+        else:
+            finalSlides.append(str(max_slide[0]))
+
+        slide = max_slide
+
+    # for slide in slides:
+    #     if slide not in slides_to_not_visit:
+    #         max_slide = max(all_slides, key=lambda x: score(slide[2], x[2]))
+    #         all_slides.remove(max_slide)
+    #         all_slides.remove(slide)
+    #         slides_to_not_visit.append(slide)
+    #         slides_to_not_visit.append(max_slide)
+    #
+    #         if slide[1] is 'S':
+    #             finalSlides.append(str(slide[0][0]) + ' ' + str(slide[0][1]))
+    #         else:
+    #             finalSlides.append(str(slide[0]))
+    #
+    #         if max_slide[1] is 'S':
+    #             finalSlides.append(str(max_slide[0][0]) + ' ' + str(max_slide[0][1]))
+    #         else:
+    #             finalSlides.append(str(max_slide[0]))
 
     #sorted_combinations = sorted(it.combinations(verticals, r=2), key=lambda x: score(x[0][2], x[1][2]))
 
@@ -73,7 +97,7 @@ def score(set1, set2):
 
 def write_result(result, filename):
     length = len(result)
-    with open('result_' + filename, 'w') as result_file:
+    with open(filename + '.txt', 'w') as result_file:
         result_file.write(str(length) + '\n')
         result_file.writelines('\n'.join(result))
 
@@ -81,6 +105,6 @@ def write_result(result, filename):
 filename = 'data_set/c_memorable_moments.txt'
 matrix = parse_input(filename)
 result = algorithm(matrix)
-write_result(result, 'example')
+write_result(result, filename)
 
 print('')
