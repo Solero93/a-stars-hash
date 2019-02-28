@@ -21,46 +21,30 @@ def algorithm(matrix):
     all_verticals = verticals
     verticals_to_not_visit = []
     pairs = []
-    for vertical in verticals:
-        if vertical not in verticals_to_not_visit:
-            max_vertical = max(all_verticals, key=lambda x: len(set([*vertical[2], *x[2]])))
-            all_verticals.remove(max_vertical)
-            all_verticals.remove(vertical)
-            verticals_to_not_visit.append(vertical)
-            verticals_to_not_visit.append(max_vertical)
-            pairs.append([[vertical[0], max_vertical[0]], 'S', [*set([*vertical[2], *max_vertical[2]])]])
+    # for vertical in verticals:
+    #     if vertical not in verticals_to_not_visit:
+    #         max_vertical = max(all_verticals, key=lambda x: len(set([*vertical[2], *x[2]])))
+    #         all_verticals.remove(max_vertical)
+    #         all_verticals.remove(vertical)
+    #         verticals_to_not_visit.append(vertical)
+    #         verticals_to_not_visit.append(max_vertical)
+    #         pairs.append([[vertical[0], max_vertical[0]], 'S', [*set([*vertical[2], *max_vertical[2]])]])
 
     slides = [*horizontals, *pairs]
-    all_slides = slides
-    slides_to_not_visit = []
-    finalSlides = []
 
-    slide = slides[0]
-    slides_to_not_visit.append(slide)
-    all_slides.remove(slide)
+    groups = []
+    uniquekeys = []
+    for k, g in it.groupby(slides, lambda x: len(x[2])):
+        groups.append(list(g))  # Store group iterator as a list
+        uniquekeys.append(k)
 
-    if slide[1] is 'S':
-        finalSlides.append(str(slide[0][0]) + ' ' + str(slide[0][1]))
-    else:
-        finalSlides.append(str(slide[0]))
+    finalSlide = []
 
-    while all_slides:
-        # if slide not in slides_to_not_visit:
+    for group in groups:
+        tempFinals = getFinalSlides(group)
 
-        if len(all_slides) < 2:
-            break
-
-        max_slide = max(all_slides, key=lambda x: score(slide[2], x[2]))
-        all_slides.remove(max_slide)
-
-        slides_to_not_visit.append(max_slide)
-
-        if max_slide[1] is 'S':
-            finalSlides.append(str(max_slide[0][0]) + ' ' + str(max_slide[0][1]))
-        else:
-            finalSlides.append(str(max_slide[0]))
-
-        slide = max_slide
+        for tempFinal in tempFinals:
+            finalSlide.append(tempFinal)
 
     # for slide in slides:
     #     if slide not in slides_to_not_visit:
@@ -92,6 +76,42 @@ def algorithm(matrix):
 
     return finalSlides
 
+def getFinalSlides(slides):
+    all_slides = slides
+    slides_to_not_visit = []
+    finalSlides = []
+
+    slide = slides[0]
+    slides_to_not_visit.append(slide)
+    all_slides.remove(slide)
+
+    if slide[1] is 'S':
+        finalSlides.append(str(slide[0][0]) + ' ' + str(slide[0][1]))
+    else:
+        finalSlides.append(str(slide[0]))
+
+    while all_slides:
+        # if slide not in slides_to_not_visit:
+
+        if len(all_slides) < 3:
+            break
+
+        # if len(all_slides) % 2000 == 0:
+        print(len(all_slides))
+
+        max_slide = max(all_slides, key=lambda x: score(slide[2], x[2]))
+        all_slides.remove(max_slide)
+
+        slides_to_not_visit.append(max_slide)
+
+        if max_slide[1] is 'S':
+            finalSlides.append(str(max_slide[0][0]) + ' ' + str(max_slide[0][1]))
+        else:
+            finalSlides.append(str(max_slide[0]))
+
+        slide = max_slide
+
+    return finalSlides
 
 def score(set1, set2):
     intersection = np.intersect1d(set1, set2)
