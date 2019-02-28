@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import numpy as np
 import itertools as it
 
@@ -10,11 +12,11 @@ def parse_input(filename):
 
 
 def algorithm(matrix):
-    horizontals = [line for line in matrix if line[1] is 'H']
     verticals = [line for line in matrix if line[1] is 'V']
-    horizontals_without_one_tag = [line for line in horizontals if len(line[2]) > 1]
+    horizontals = [line for line in matrix if line[1] is 'H' and len(line[2]) > 1]
 
-    # Two verticals with highest score
+    verticals = sorted(verticals, key=lambda x: len(x[2]))
+    horizontals = sorted(horizontals, key=lambda x: len(x[2]))
 
     all_verticals = verticals
     verticals_to_not_visit = []
@@ -85,9 +87,7 @@ def algorithm(matrix):
     #     else:
     #         resultX.append(str(s[0]))
 
-    return set(finalSlides)
-
-
+    return finalSlides
 
 
 def score(set1, set2):
@@ -102,9 +102,15 @@ def write_result(result, filename):
         result_file.writelines('\n'.join(result))
 
 
-filename = 'data_set/c_memorable_moments.txt'
-matrix = parse_input(filename)
-result = algorithm(matrix)
-write_result(result, filename)
+def main():
+    filename = 'data_set/c_memorable_moments.txt'
+    matrix = parse_input(filename)
+    result = algorithm(matrix)
+    write_result(result, filename)
 
-print('')
+
+if __name__ == '__main__':
+    t1 = datetime.now()
+    main()
+    t2 = datetime.now()
+    print(t2 - t1)
