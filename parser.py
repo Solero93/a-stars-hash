@@ -46,9 +46,9 @@ def algorithm(matrix):
 
     for s in finalSlides:
         if s[1] is 'S':
-            resultX.append(s[0][0] + ' ' + s[0][1])
+            resultX.append(str(s[0][0]) + ' ' + str(s[0][1]))
         else:
-            resultX.append(s[0])
+            resultX.append(str(s[0]))
 
     return resultX
 
