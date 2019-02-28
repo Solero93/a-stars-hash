@@ -42,7 +42,13 @@ def algorithm(matrix):
 
     #sorted_combinations = sorted(it.combinations(verticals, r=2), key=lambda x: score(x[0][2], x[1][2]))
 
-    resultX = [len(finalSlides), *finalSlides]
+    resultX = []
+
+    for s in finalSlides:
+        if s[1] is 'S':
+            resultX.append(s[0][0] + ' ' + s[0][1])
+        else:
+            resultX.append(s[0])
 
     return resultX
 
@@ -53,12 +59,14 @@ def score(set1, set2):
     intersection = np.intersect1d(set1, set2)
     return min(len(set1) - len(intersection), len(set2) - len(intersection), len(intersection))
 
+
 def write_result(result, filename):
     length = len(result)
     with open('result_' + filename, 'w') as result_file:
         result_file.write(str(length) + '\n')
         for line in result:
-            result_file.write(' '.join(str(elem) for elem in line) + '\n')
+            result_file.write(line)
+            #result_file.write(' '.join(str(elem) for elem in line) + '\n')
 
 filename = 'data_set/c_memorable_moments.txt'
 matrix = parse_input(filename)
