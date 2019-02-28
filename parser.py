@@ -10,9 +10,8 @@ def parse_input(filename):
 
 
 def algorithm(matrix):
-    horizontals = [line for line in matrix if line[1] is 'H']
     verticals = [line for line in matrix if line[1] is 'V']
-    horizontals_without_one_tag = [line for line in horizontals if len(line[2]) > 1]
+    horizontals = [line for line in matrix if line[1] is 'H' and len(line[2]) > 1]
 
     # Two verticals with highest score
 
