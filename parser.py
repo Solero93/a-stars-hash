@@ -38,19 +38,28 @@ def algorithm(matrix):
             all_slides.remove(max_slide)
             slides_to_not_visit.append(slide)
             slides_to_not_visit.append(max_slide)
-            finalSlides.append([[slide[0], max_slide[0]], 'S', np.intersect1d(slide[2], max_slide[2])])
+
+            if slide[1] is 'S':
+                finalSlides.append(str(slide[0][0]) + ' ' + str(slide[0][1]))
+            else:
+                finalSlides.append(str(slide[0]))
+
+            if max_slide[1] is 'S':
+                finalSlides.append(str(max_slide[0][0]) + ' ' + str(max_slide[0][1]))
+            else:
+                finalSlides.append(str(max_slide[0]))
 
     #sorted_combinations = sorted(it.combinations(verticals, r=2), key=lambda x: score(x[0][2], x[1][2]))
 
-    resultX = []
+    # resultX = []
+    #
+    # for s in finalSlides:
+    #     if s[1] is 'S':
+    #         resultX.append(str(s[0][0]) + ' ' + str(s[0][1]))
+    #     else:
+    #         resultX.append(str(s[0]))
 
-    for s in finalSlides:
-        if s[1] is 'S':
-            resultX.append(str(s[0][0]) + ' ' + str(s[0][1]))
-        else:
-            resultX.append(str(s[0]))
-
-    return resultX
+    return finalSlides
 
 
 
@@ -65,6 +74,8 @@ def write_result(result, filename):
     with open('result_' + filename, 'w') as result_file:
         result_file.write(str(length) + '\n')
         result_file.writelines('\n'.join(result))
+
+
 filename = 'data_set/c_memorable_moments.txt'
 matrix = parse_input(filename)
 result = algorithm(matrix)
