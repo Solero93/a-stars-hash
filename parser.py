@@ -25,11 +25,31 @@ def algorithm(matrix):
             all_verticals.remove(max_vertical)
             verticals_to_not_visit.append(vertical)
             verticals_to_not_visit.append(max_vertical)
-            pairs.append((vertical, max_vertical))
+            pairs.append([[vertical[0], max_vertical[0]], 'S', np.intersect1d(vertical[2], max_vertical[2])])
+
+    slides = []
+    slides.append(horizontals)
+    slides.append(pairs)
+
+    all_slides = slides
+    slides_to_not_visit = []
+    finalSlides = []
+
+    for slide in slides:
+        if slide not in slides_to_not_visit:
+            max_slide = max(all_slides, key=lambda x: score(slide[2], x[2]))
+            all_slides.remove(max_slide)
+            slides_to_not_visit.append(slide)
+            slides_to_not_visit.append(max_slide)
+            finalSlides.append([[slide[0], max_slide[0]], 'S', np.intersect1d(slide[2], max_slide[2])])
 
     #sorted_combinations = sorted(it.combinations(verticals, r=2), key=lambda x: score(x[0][2], x[1][2]))
 
-    return ''
+    resultX = []
+    resultX.append(len(finalSlides))
+    resultX.append(finalSlides)
+
+    return resultX
 
 
 
@@ -37,7 +57,6 @@ def algorithm(matrix):
 def score(set1, set2):
     intersection = np.intersect1d(set1, set2)
     return min(len(set1) - len(intersection), len(set2) - len(intersection), len(intersection))
-
 
 def write_result(result, filename):
     length = len(result)
