@@ -21,7 +21,7 @@ def algorithm(matrix):
     pairs = []
     for vertical in verticals:
         if vertical not in verticals_to_not_visit:
-            max_vertical = max(all_verticals, key=lambda x: score(vertical, x[2]))
+            max_vertical = max(all_verticals, key=lambda x: score(vertical[2], x[2]))
             all_verticals.remove(max_vertical)
             verticals_to_not_visit.append(vertical)
             verticals_to_not_visit.append(max_vertical)
