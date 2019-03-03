@@ -38,13 +38,13 @@ def algorithm(matrix):
         groups.append(list(g))  # Store group iterator as a list
         uniquekeys.append(k)
 
-    finalSlide = []
+    finalSlides = []
 
     for group in groups:
         tempFinals = getFinalSlides(group)
 
         for tempFinal in tempFinals:
-            finalSlide.append(tempFinal)
+            finalSlides.append(tempFinal)
 
     # for slide in slides:
     #     if slide not in slides_to_not_visit:
@@ -96,10 +96,13 @@ def getFinalSlides(slides):
         if len(all_slides) < 3:
             break
 
-        # if len(all_slides) % 2000 == 0:
-        print(len(all_slides))
+        if len(all_slides) % 500 == 0:
+            print(len(all_slides))
 
-        max_slide = max(all_slides, key=lambda x: score(slide[2], x[2]))
+        lenSlides = len(all_slides)
+        min = lenSlides < 510
+
+        max_slide = max(all_slides[-500:-1], key=lambda x: score(slide[2], x[2]))
         all_slides.remove(max_slide)
 
         slides_to_not_visit.append(max_slide)
@@ -128,8 +131,8 @@ def write_result(result, filename):
 def main():
     filename = 'data_set/a_example.txt'
     filename = 'data_set/b_lovely_landscapes.txt'
-    filename = 'data_set/c_memorable_moments.txt'
-    filename = 'data_set/d_pet_pictures.txt'
+    # filename = 'data_set/c_memorable_moments.txt'
+    # filename = 'data_set/d_pet_pictures.txt'
     # filename = 'data_set/e_shiny_selfies.txt'
     matrix = parse_input(filename)
     result = algorithm(matrix)
